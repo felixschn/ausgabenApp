@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Ausgaben2</string>
+    <string name="action_settings">Settings</string>
+    <string name="Button">Hinzufügen</string>
+    <string name="activityString">Ausgabe eingeben</string>
+    <string name="sum">Summe</string>
+    <string name="enterDataText">Verwedungstext eingeben:</string>
+    <string name="enterDataAmount">Preis eingeben:</string>
+    <string name="buttonSend">Bestätigen</string>
+    <string name="date">Datum eingeben:</string>
+</resources>
