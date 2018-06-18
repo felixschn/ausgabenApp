@@ -1,5 +1,6 @@
 package com.example.felix.ausgaben2;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class AusgabenAdapter extends RecyclerView.Adapter<AusgabenAdapter.MyViewHolder> {
 
-    private List<Ausgaben> ausgabenList;
+    public AusgabenDataSource ausgabenDataSource;
 
     DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -29,8 +30,8 @@ public class AusgabenAdapter extends RecyclerView.Adapter<AusgabenAdapter.MyView
     }
 
 
-    public AusgabenAdapter(List<Ausgaben> ausgabenList) {
-        this.ausgabenList = ausgabenList;
+    public AusgabenAdapter(AusgabenDataSource ausgabenDataSource) {
+        this.ausgabenDataSource = ausgabenDataSource;
     }
 
     @NonNull
@@ -43,7 +44,7 @@ public class AusgabenAdapter extends RecyclerView.Adapter<AusgabenAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Ausgaben ausgaben = ausgabenList.get(position);
+        Ausgaben ausgaben = ausgabenDataSource.getAllAusgaben().iterator().next();
         holder.activityString.setText(ausgaben.getActivtiyString());
         //TODO parameter cast to int (have to be a double value)
         holder.price.setText(String.valueOf(ausgaben.getPrice()));
@@ -54,6 +55,6 @@ public class AusgabenAdapter extends RecyclerView.Adapter<AusgabenAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return ausgabenList.size();
+        return ausgabenDataSource.getAllAusgaben().size();
     }
 }

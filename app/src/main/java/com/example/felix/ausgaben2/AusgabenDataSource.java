@@ -22,51 +22,50 @@ public class AusgabenDataSource {
     private SQLiteDatabase database;
     private AusgabenDbHelper ausgabenDbHelper;
 
-    private String [] columns = {
+    private String[] columns = {
             AusgabenDbHelper.COLUMN_ID,
             AusgabenDbHelper.COLUMN_NAME,
             AusgabenDbHelper.COLUMN_DATE,
             AusgabenDbHelper.COLUMN_PRICE,
     };
 
-    public AusgabenDataSource(Context context){
+    public AusgabenDataSource(Context context) {
         Log.d(LOG_TAG, "DataSource erzeugt nun den DBHelper");
-        ausgabenDbHelper  = new AusgabenDbHelper(context);
+        ausgabenDbHelper = new AusgabenDbHelper(context);
     }
 
-    public void open(){
+    public void open() {
         Log.d(LOG_TAG, "Eine Referenz auf die Datenbank wird jetzt angefragt");
         database = ausgabenDbHelper.getWritableDatabase();
         Log.d(LOG_TAG, "Datenbank-Referenz erhalten. Pfad zur Datenbank " + database.getPath());
     }
 
-    public void close(){
+    public void close() {
         ausgabenDbHelper.close();
-        Log.d(LOG_TAG,"Datebank mit Hilfe des DbHelpers geschlossen");
+        Log.d(LOG_TAG, "Datebank mit Hilfe des DbHelpers geschlossen");
     }
 
-    public Ausgaben createAusgaben(String name, double price, Date date){
+    public Ausgaben createAusgaben(String name, double price, Date date) {
         ContentValues values = new ContentValues();
-        values.put(AusgabenDbHelper.COLUMN_NAME,name);
+        values.put(AusgabenDbHelper.COLUMN_NAME, name);
 
         values.put(AusgabenDbHelper.COLUMN_DATE, date.toString());
-        values.put(AusgabenDbHelper.COLUMN_PRICE,price);
+        values.put(AusgabenDbHelper.COLUMN_PRICE, price);
 
 
+        long insertId = database.insert(AusgabenDbHelper.TABLE_AusgabenData, null, values);
 
-        long insertId = database.insert(AusgabenDbHelper.TABLE_AusgabenData,null,values);
-
-        Cursor cursor = database.query(AusgabenDbHelper.TABLE_AusgabenData, columns, AusgabenDbHelper.COLUMN_ID + "=" + insertId,null,null,null,null);
+        Cursor cursor = database.query(AusgabenDbHelper.TABLE_AusgabenData, columns, AusgabenDbHelper.COLUMN_ID + "=" + insertId, null, null, null, null);
 
         cursor.moveToFirst();
         Ausgaben ausgaben = cursorToAusgaben(cursor);
 
-        cursor.close();
+        //cursor.close();
 
         return ausgaben;
     }
 
-    private Ausgaben cursorToAusgaben(Cursor cursor){
+    private Ausgaben cursorToAusgaben(Cursor cursor) {
         int idIndex = cursor.getColumnIndex(AusgabenDbHelper.COLUMN_ID);
         int idName = cursor.getColumnIndex(AusgabenDbHelper.COLUMN_NAME);
         int idDate = cursor.getColumnIndex(AusgabenDbHelper.COLUMN_DATE);
@@ -84,26 +83,28 @@ public class AusgabenDataSource {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        //TODO ID muss noch mit übergeben werden
         Ausgaben ausgaben = new Ausgaben(name, price, new Date());
 
         return ausgaben;
     }
 
-    public List<Ausgaben> getAllAusgaben(){
+    public List<Ausgaben> getAllAusgaben() {
         List<Ausgaben> ausgabenListNeu = new ArrayList<>();
 
-        Cursor cursor = database.query(AusgabenDbHelper.TABLE_AusgabenData, columns,null,null,null,null,null);
+        Cursor cursor = database.query(AusgabenDbHelper.TABLE_AusgabenData, columns, null, null, null, null, null);
 
         cursor.moveToFirst();
 
         Ausgaben ausgaben;
 
-        while(!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             ausgaben = cursorToAusgaben(cursor);
             ausgabenListNeu.add(ausgaben);
-            }
-            cursor.close();
+        }
+        cursor.close();
 
         return ausgabenListNeu;
     }
+
 }

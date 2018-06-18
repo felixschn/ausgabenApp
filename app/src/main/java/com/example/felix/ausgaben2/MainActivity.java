@@ -49,23 +49,22 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-
-        mAdapter = new AusgabenAdapter(ausgabenList);
+        dataSource = new AusgabenDataSource(this);
+        mAdapter = new AusgabenAdapter(dataSource);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
         //preparedAusgabenData();
-        dataSource = new AusgabenDataSource(this);
+
         Log.d(LOG_TAG, "Die Datenquelle wird geöffnet");
         dataSource.open();
 
 
         Ausgaben ausgaben = dataSource.createAusgaben("Testeinkauf", 20, new Date());
 
-        Log.d(LOG_TAG,"Die Datenquelle wird geschlossen");
-        dataSource.close();
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -85,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = (TextView) findViewById(R.id.total_amount);
         textView.setText(String.valueOf(sum(ausgabenList)));
+        Log.d(LOG_TAG,"Die Datenquelle wird geschlossen");
+        dataSource.close();
     }
 
 
