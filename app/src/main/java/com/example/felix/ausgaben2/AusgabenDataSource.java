@@ -48,6 +48,7 @@ public class AusgabenDataSource {
     }
 
     public Ausgaben createAusgaben(String name, double price, Date date) {
+        open();
         ContentValues values = new ContentValues();
         values.put(AusgabenDbHelper.COLUMN_NAME, name);
 
@@ -63,7 +64,8 @@ public class AusgabenDataSource {
         Ausgaben ausgaben = cursorToAusgaben(cursor);
 
 
-        //cursor.close();
+        cursor.close();
+        close();
 
         return ausgaben;
     }

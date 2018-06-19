@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
                 double val = Double.parseDouble(retEnterDataAmount);
 
-                //dataSource.createAusgaben(retEnterDataString,val,date);
+                dataSource.createAusgaben(retEnterDataString,val,date);
                 Ausgaben ausgabenRet = new Ausgaben(retEnterDataString,val,new Date(date.getDate(),date.getMonth()+1,date.getYear()+2000));
 
                 ausgabenList.add(ausgabenRet);
