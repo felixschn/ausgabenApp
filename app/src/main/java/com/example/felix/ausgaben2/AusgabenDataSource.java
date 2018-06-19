@@ -29,6 +29,8 @@ public class AusgabenDataSource {
             AusgabenDbHelper.COLUMN_PRICE,
     };
 
+    private int SIZE;
+
     public AusgabenDataSource(Context context) {
         Log.d(LOG_TAG, "DataSource erzeugt nun den DBHelper");
         ausgabenDbHelper = new AusgabenDbHelper(context);
@@ -59,6 +61,7 @@ public class AusgabenDataSource {
 
         cursor.moveToFirst();
         Ausgaben ausgaben = cursorToAusgaben(cursor);
+
 
         //cursor.close();
 
@@ -104,7 +107,13 @@ public class AusgabenDataSource {
         }
         cursor.close();
 
+        SIZE = ausgabenListNeu.size();
+
         return ausgabenListNeu;
+    }
+
+    public int getSIZE(){
+        return SIZE;
     }
 
 }

@@ -55,6 +55,6 @@ public class AusgabenAdapter extends RecyclerView.Adapter<AusgabenAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return ausgabenDataSource.getAllAusgaben().size();
+        return ausgabenDataSource.getSIZE();
     }
 }
